@@ -1,0 +1,14 @@
+
+model User {
+  id Int @id @default(autoincrement())
+  password String
+
+  email String @unique
+  firstName String?
+  lastName String?
+
+  roles RolesOnUsers[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}

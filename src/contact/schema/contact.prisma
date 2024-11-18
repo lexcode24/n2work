@@ -1,0 +1,13 @@
+
+model Contact {
+  id Int @id @default(autoincrement())
+  first_name String?
+  last_name String?
+  isActive Boolean? @default(true) @map("is_active")
+  email String?
+  phone String?
+  mobile String?
+  note String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
