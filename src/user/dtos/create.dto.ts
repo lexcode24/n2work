@@ -1,5 +1,5 @@
-import {IsEmail, IsEnum, IsOptional, IsString, MaxLength, MinLength} from "class-validator";
-import {Role} from "@prisma/client";
+import {IsArray, IsEmail, IsOptional, IsString, MaxLength, MinLength} from "class-validator";
+import {CreateRoleDto} from "../../role/dto/create-role";
 
 export class CreateUserDto {
   @IsString()
@@ -20,8 +20,9 @@ export class CreateUserDto {
   @MaxLength(30)
   lastName: string
 
+  @IsArray()
   @IsOptional()
-  role?: Role
+  roles?: CreateRoleDto[]
 }
 
 export type UpdateUserDto = Partial<CreateUserDto>
