@@ -1,5 +1,5 @@
 import {IsArray, IsOptional, IsString} from "class-validator";
-import {CreateContactDto} from "../../contact/dto/create-base.dto";
+import {CreateContactDto} from "../../contact/dto/contact.dto";
 
 export class CreatePermissionDto {
     @IsString()

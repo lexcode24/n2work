@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ContactController } from './contact.controller';
 import { ContactService } from './contact.service';
 import {BaseService} from "../base/base.service";
-import {BaseController} from "../base/base.controller";
 import {PrismaService} from "../prisma.service";
 import {BaseModule} from "../base/base.module";
 

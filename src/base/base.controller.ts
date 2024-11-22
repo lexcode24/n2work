@@ -13,6 +13,7 @@ export class BaseController {
   @Auth('base.create')
   @Post()
   create(@Body() createBaseDto: CreateBaseDto) {
+    console.log('createBaseDto', CreateBaseDto);
     return this.service.create(createBaseDto);
   }
 
@@ -22,6 +23,7 @@ export class BaseController {
     return this.service.findAll(params);
   }
 
+  @Auth('base.read')
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(+id);
