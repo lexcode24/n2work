@@ -1,43 +1,39 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, Query} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
 import { BaseService } from './base.service';
-import { CreateBaseDto } from './dto/create-base.dto';
-import { UpdateBaseDto } from './dto/update-base.dto';
-import {PaginationArgsWithSearchTerm} from "../utils/pagination.util";
-import {Auth} from "../auth/decorators/auth.decorator";
 
-@Controller('base')
-export class BaseController {
+@Controller()
+export class BaseController<CreateDto, UpdateDto> {
+    constructor(
+        private readonly service: BaseService<any>,
+        private readonly createDto: new () => CreateDto,
+        private readonly updateDto: new () => UpdateDto,
+    ) {}
 
-  constructor( protected readonly service: BaseService) {}
+    @Post()
+    @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
+    create(@Body() data: CreateDto) {
+        console.log('DTO-Instanz:', data instanceof this.createDto); // Erwartet: true
+        return this.service.create(data);
+    }
 
-  @Auth('base.create')
-  @Post()
-  create(@Body() createBaseDto: CreateBaseDto) {
-    console.log('createBaseDto', CreateBaseDto);
-    return this.service.create(createBaseDto);
-  }
+    @Get()
+    findAll() {
+        return this.service.findAll();
+    }
 
-  @Auth('base.read')
-  @Get()
-  findAll(@Query() params: PaginationArgsWithSearchTerm) {
-    return this.service.findAll(params);
-  }
+    @Get(':id')
+    findOne(@Param('id') id: number) {
+        return this.service.findOne(id);
+    }
 
-  @Auth('base.read')
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.service.findOne(+id);
-  }
+    @Put(':id')
+    @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
+    update(@Param('id') id: number, @Body() data: UpdateDto) {
+        return this.service.update(id, data);
+    }
 
-  @Auth('base.update')
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBaseDto: UpdateBaseDto) {
-    return this.service.update(+id, updateBaseDto);
-  }
-
-  @Auth('base.delete')
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.service.remove(+id);
-  }
+    @Delete(':id')
+    delete(@Param('id') id: number) {
+        return this.service.delete(id);
+    }
 }

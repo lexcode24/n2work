@@ -1,73 +1,25 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
-import { CreateBaseDto } from './dto/create-base.dto';
-import { UpdateBaseDto } from './dto/update-base.dto';
-import {PrismaService} from "../prisma.service";
-import {isHasMorePagination, PaginationArgsWithSearchTerm} from "../utils/pagination.util";
-import {Prisma} from "@prisma/client";
+import { PrismaService } from '../prisma/prisma.service';
 
-@Injectable()
-export class BaseService {
+export class BaseService<T> {
+    constructor(private readonly prisma: PrismaService, private readonly model: string) {}
 
-  protected readonly model;
+    create(data: T): Promise<T> {
+        return this.prisma[this.model].create({ data });
+    }
 
-  constructor(protected readonly prisma: PrismaService){
-    this.model = this.prisma.base;
-  }
+    findAll(): Promise<T[]> {
+        return this.prisma[this.model].findMany();
+    }
 
-  async create(createBaseDto: CreateBaseDto) {
-    return await this.model.create({data: createBaseDto});
-  }
+    findOne(id: number): Promise<T> {
+        return this.prisma[this.model].findUnique({ where: { id } });
+    }
 
-  async findAll(args?: PaginationArgsWithSearchTerm ) {
-    const searchTermQuery = args?.searchTerm
-        ? this.getSearchTermFilter(args?.searchTerm)
-        : {}
+    update(id: number, data: Partial<T>): Promise<T> {
+        return this.prisma[this.model].update({ where: { id }, data });
+    }
 
-    const skip = args?.skip ?? 0;
-    const take = args?.take ?? 10;
-
-
-    const items = await this.model.findMany({
-      skip: +skip,
-      take: +take,
-      where: searchTermQuery
-    });
-
-    const totalCount = await this.model.count({where: searchTermQuery});
-
-    const isHasMore = isHasMorePagination(totalCount, args?.skip, args?.take);
-
-    return {items, isHasMore};
-  }
-
-  async findOne(id: number) {
-    const item = await this.model.findFirst({where: {id}});
-    if(!item) throw new NotFoundException('Record not found');
-    return item;
-  }
-
-  async update(id: number, updateBaseDto: UpdateBaseDto) {
-    const item = await this.model.update({
-        where: {id},
-        data: updateBaseDto
-    });
-    return item;
-  }
-
-  async remove(id: number) {
-    return await this.model.delete({where: {id}});
-  }
-
-  private getSearchTermFilter(searchTerm: string): Prisma.BaseWhereInput {
-      return {
-        OR: [
-            {
-              name: {
-                contains: searchTerm,
-                mode: 'insensitive'
-              }
-            },
-        ]
-      }
-  }
+    delete(id: number): Promise<T> {
+        return this.prisma[this.model].delete({ where: { id } });
+    }
 }

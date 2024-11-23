@@ -1,13 +1,14 @@
-import {CreateBaseDto} from "../../base/dto/create-base.dto";
-import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
+import {IsEmail, IsNotEmpty, IsOptional, IsString, MinLength} from 'class-validator';
+import {PartialType} from "@nestjs/mapped-types";
 
-export class CreateContactDto implements CreateBaseDto {
+export class CreateContactDto {
 
     @IsOptional()
     @IsString()
     displayName: string;
 
     @IsString()
+    @IsNotEmpty()
     @MinLength(2)
     firstName: string;
 
@@ -31,3 +32,5 @@ export class CreateContactDto implements CreateBaseDto {
     @IsString()
     notes?: string;
 }
+
+export class UpdateContactDto extends PartialType(CreateContactDto) {}
