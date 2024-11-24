@@ -1,4 +1,4 @@
-import {IsEmail, IsNotEmpty, IsOptional, IsString, MinLength} from 'class-validator';
+import {IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import {PartialType} from "@nestjs/mapped-types";
 
 export class CreateContactDto {
@@ -9,7 +9,6 @@ export class CreateContactDto {
 
     @IsString()
     @IsNotEmpty()
-    @MinLength(2)
     firstName: string;
 
     @IsOptional()

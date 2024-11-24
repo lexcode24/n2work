@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ContactController } from './contact.controller';
-import { ContactService } from './contact.service';
 import { BaseModule } from '../base/base.module';
-import {PrismaModule} from "../prisma/prisma.module";
+import { ContactService } from './contact.service';
+import { ContactController } from './contact.controller';
 
 @Module({
-  imports: [PrismaModule, BaseModule],         // Подключаем BaseModule
-  controllers: [ContactController],
-  providers: [ContactService],   // Используем ContactService
+    imports: [BaseModule.register(ContactService)],
+    controllers: [ContactController],
 })
 export class ContactModule {}

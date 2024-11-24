@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { BaseService } from '../old_base/base.service';
-import { PrismaService } from '../prisma.service';
+import { BaseService } from '../base/base.service';
+import { PrismaService } from '../prisma/prisma.service';
+import {Permission} from "@prisma/client";
 
 @Injectable()
-export class PermissionService extends BaseService {
-
-  protected readonly model;
-
-  constructor(protected readonly prisma: PrismaService){
-      super(prisma);
-      this.model = this.prisma.permission;
+export class PermissionService extends BaseService<Permission> {
+  constructor(prisma: PrismaService){
+      super(prisma, 'permission');
   }
 }

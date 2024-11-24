@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
 import { BaseService } from '../base/base.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { Contact } from '@prisma/client';
 
 @Injectable()
-export class ContactService extends BaseService<any> {
+export class ContactService extends BaseService<Contact> {
     constructor(prisma: PrismaService) {
         super(prisma, 'contact');
-    }
-
-    customLogic() {
-        return { message: 'Custom logic for Contact module' };
     }
 }

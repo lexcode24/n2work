@@ -1,7 +1,10 @@
 import { PrismaService } from '../prisma/prisma.service';
+import {Inject} from "@nestjs/common";
 
 export class BaseService<T> {
-    constructor(private readonly prisma: PrismaService, private readonly model: string) {}
+    constructor(
+        @Inject(PrismaService) private readonly prisma: PrismaService,
+        private readonly model: string) {}
 
     create(data: T): Promise<T> {
         return this.prisma[this.model].create({ data });

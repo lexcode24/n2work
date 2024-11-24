@@ -8,7 +8,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api')
   app.use(cookieParser())
-  console.log('Validation-Pipe aktiviert!');
+  app.useGlobalPipes(new ValidationPipe());
   app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true, // Entfernt Felder, die nicht im DTO definiert sind

@@ -1,18 +1,17 @@
-import { Controller, UsePipes, ValidationPipe} from '@nestjs/common';
+import {Body, Controller, Post} from '@nestjs/common';
 import { BaseController } from '../base/base.controller';
 import { ContactService } from './contact.service';
-import {CreateContactDto, UpdateContactDto} from "./dto/contact.dto";
+import {CreateContactDto} from "./dto/contact.dto";
 
 @Controller('contacts')
-@UsePipes(
-    new ValidationPipe({
-        whitelist: true,
-        forbidNonWhitelisted: true,
-        transform: true,
-    }),
-)
-export class ContactController extends BaseController<CreateContactDto, UpdateContactDto> {
-    constructor(private readonly contactService: ContactService) {
-        super(contactService, CreateContactDto, UpdateContactDto);
+export class ContactController extends BaseController {
+    constructor(service: ContactService) {
+        super(service);
     }
+
+    @Post()
+    async create(@Body() data: CreateContactDto) {
+        return super.create(data);
+    }
+
 }

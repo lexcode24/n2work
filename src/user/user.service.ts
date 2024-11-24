@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { hash } from 'argon2';
 import { CreateUserDto, UpdateUserDto } from './dtos/create.dto';
 

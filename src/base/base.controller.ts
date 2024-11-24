@@ -1,18 +1,15 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
-import { BaseService } from './base.service';
+import {Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {BaseService} from "./base.service";
+import {CreateBaseDto, UpdateBaseDto} from "./dto/base.dto";
 
 @Controller()
-export class BaseController<CreateDto, UpdateDto> {
+export class BaseController {
     constructor(
         private readonly service: BaseService<any>,
-        private readonly createDto: new () => CreateDto,
-        private readonly updateDto: new () => UpdateDto,
     ) {}
 
     @Post()
-    @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
-    create(@Body() data: CreateDto) {
-        console.log('DTO-Instanz:', data instanceof this.createDto); // Erwartet: true
+    async create(@Body() data: CreateBaseDto)  {
         return this.service.create(data);
     }
 
@@ -27,8 +24,7 @@ export class BaseController<CreateDto, UpdateDto> {
     }
 
     @Put(':id')
-    @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
-    update(@Param('id') id: number, @Body() data: UpdateDto) {
+    update(@Param('id') id: number, @Body() data: UpdateBaseDto) {
         return this.service.update(id, data);
     }
 
