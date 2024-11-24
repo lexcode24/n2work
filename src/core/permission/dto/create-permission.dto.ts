@@ -1,5 +1,5 @@
 import {IsArray, IsOptional, IsString} from "class-validator";
-import {CreateContactDto} from "../../contact/dto/contact.dto";
+import {CreateRoleDto} from "../../role/dto/create-role";
 
 export class CreatePermissionDto {
     @IsString()
@@ -10,7 +10,7 @@ export class CreatePermissionDto {
     module?: string;
 
     @IsArray()
-    roles: CreateContactDto[];
+    roles: CreateRoleDto[];
 }
 
 export type UpdatePermissionDto = Partial<CreatePermissionDto>

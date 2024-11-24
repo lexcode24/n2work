@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import {ConfigModule} from "@nestjs/config";
-import { UserModule } from './user/user.module';
-import { ContactModule } from './contact/contact.module';
-import {AuthModule} from "./auth/auth.module";
-import {PrismaModule} from "./prisma/prisma.module";
-import {PermissionModule} from "./permission/permission.module";
+import { UserModule } from './core/user/user.module';
+import { ContactModule } from './modules/contact/contact.module';
+import {AuthModule} from "./core/auth/auth.module";
+import {PrismaModule} from "./core/prisma/prisma.module";
+import {PermissionModule} from "./core/permission/permission.module";
 
 @Module({
   imports: [
@@ -12,8 +12,8 @@ import {PermissionModule} from "./permission/permission.module";
       AuthModule,
       UserModule,
       PrismaModule,
-      ContactModule,
       PermissionModule,
+      ContactModule,
   ],
 })
 export class AppModule {}

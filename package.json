@@ -21,7 +21,7 @@
     "n2:setup": "ts-node cli/setup.ts",
     "n2:migrate-set": "ts-node set-migrate-files.js",
     "n2:migrate-dev": "prisma migrate dev",
-    "seed": "ts-node src/seed.ts"
+    "n2:seed": "ts-node src/seeds/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

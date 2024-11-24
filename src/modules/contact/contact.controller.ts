@@ -1,5 +1,5 @@
 import {Body, Controller, Post} from '@nestjs/common';
-import { BaseController } from '../base/base.controller';
+import { BaseController } from '../../core/base/base.controller';
 import { ContactService } from './contact.service';
 import {CreateContactDto} from "./dto/contact.dto";
 
