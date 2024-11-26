@@ -1,7 +1,7 @@
-import {Body, Controller, Post} from '@nestjs/common';
+import {Body, Controller, Param, Post, Put} from '@nestjs/common';
 import { BaseController } from '../../core/base/base.controller';
 import { ContactService } from './contact.service';
-import {CreateContactDto} from "./dto/contact.dto";
+import {CreateContactDto, UpdateContactDto} from "./dto/contact.dto";
 
 @Controller('contacts')
 export class ContactController extends BaseController {
@@ -12,6 +12,11 @@ export class ContactController extends BaseController {
     @Post()
     async create(@Body() data: CreateContactDto) {
         return super.create(data);
+    }
+
+    @Put(':id')
+    update(@Param('id') id: number, @Body() data: UpdateContactDto) {
+        return super.update(id, data);
     }
 
 }

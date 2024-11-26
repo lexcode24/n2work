@@ -22,8 +22,6 @@ export class AuthGuard implements CanActivate {
             return true;
         }
 
-        console.log('permission', permission);
-
         let perm = await this.prisma.permission.findUnique({where: {name: permission}});
         if (!perm) {
             const modulName = permission.split('.')[0] || '';

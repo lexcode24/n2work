@@ -1,25 +1,25 @@
-import {IsOptional, IsString} from "class-validator";
+import {IsArray, IsObject, IsOptional, IsString} from "class-validator";
 
-export class PaginationArgs {
-    @IsString()
+export class PaginationArgsWithSearchTerm {
+
     @IsOptional()
-    skip?: string;
+    @IsObject()
+    filters: any;
 
-    @IsString()
     @IsOptional()
-    take?: string;
-}
-
-export class PaginationArgsWithSearchTerm extends PaginationArgs {
     @IsString()
-    @IsOptional()
-    searchTerm?: string;
-}
+    skip: string;
 
-export function isHasMorePagination(
-    totalCount: number,
-    skip?: string,
-    take?: string
-): boolean {
-    return totalCount > (parseInt(skip) || 0) + (parseInt(take) || 0);
+    @IsOptional()
+    @IsString()
+    take: string;
+
+    @IsOptional()
+    @IsObject()
+    orderBy: any;
+
+    @IsOptional()
+    @IsArray()
+    @IsString({ each: true })
+    groupBy?: string[];
 }
