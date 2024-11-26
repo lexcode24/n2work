@@ -18,15 +18,15 @@ export class BaseController {
 
     @Auth('base.read')
     @Get()
-    findAll(@Query() params: PaginationArgsWithSearchTerm) {
+    findAll(@Query() params: PaginationArgsWithSearchTerm, includeRelations?: any) {
         const { filters, skip, orderBy, groupBy } = params;
-        return this.service.findAll(filters, skip, orderBy, groupBy);
+        return this.service.findAll(filters, skip, orderBy, groupBy, includeRelations);
     }
 
     @Auth('base.read')
     @Get(':id')
-    findOne(@Param('id') id: number) {
-        return this.service.findOne(id);
+    findOne(@Param('id') id: number, includeRelations?: any) {
+        return this.service.findOne(id, includeRelations);
     }
 
     @Auth('base.update')

@@ -5,6 +5,7 @@ import { ContactModule } from './modules/contact/contact.module';
 import {AuthModule} from "./core/auth/auth.module";
 import {PrismaModule} from "./core/prisma/prisma.module";
 import {PermissionModule} from "./core/permission/permission.module";
+import {RoleModule} from "./core/role/role.module";
 
 @Module({
   imports: [
@@ -12,8 +13,9 @@ import {PermissionModule} from "./core/permission/permission.module";
       AuthModule,
       UserModule,
       PrismaModule,
+      RoleModule,
       PermissionModule,
       ContactModule,
-  ],
+  ]
 })
 export class AppModule {}

@@ -24,7 +24,7 @@ export class BaseService<T> {
     * orderBy: any
     * groupBy: string[] (optional)
      */
-    async findAll(filters: any, skip: any, orderBy: any, groupBy: string[] ): Promise<any> {
+    async findAll(filters: any, skip: any, orderBy: any, groupBy: string[], includeRelations?: any ): Promise<any> {
         const where = buildWhereClause(filters);
 
         skip = parseInt(skip) || 0;
@@ -36,6 +36,10 @@ export class BaseService<T> {
             take,
             orderBy,
         };
+
+        if (includeRelations) {
+            query.include = includeRelations;
+        }
 
         if (groupBy) {
             query.groupBy = groupBy;
@@ -57,8 +61,16 @@ export class BaseService<T> {
     /*
     * id: number
      */
-    findOne(id: number): Promise<T> {
-        return this.prisma[this.model].findUnique({ where: { id } });
+    findOne(id: number, includeRelations?: any): Promise<T> {
+        const query: any = { where: { id } };
+
+        if (includeRelations) {
+            query.include = includeRelations;
+        }
+
+        console.log('query: ', query);
+
+        return this.prisma[this.model].findUnique(query);
     }
 
     /*
