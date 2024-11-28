@@ -3,7 +3,7 @@ import {PrismaService} from "../prisma/prisma.service";
 
 @Module({})
 export class BaseModule {
-    static register(serviceClass: any ): DynamicModule {
+    static register(serviceClass?: any): DynamicModule {
         const dynamicProviders: Provider[] = [
             {
                 provide: serviceClass,

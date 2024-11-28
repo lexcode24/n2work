@@ -69,6 +69,6 @@ export class AuthController {
     @Auth()
     @Get('profile')
     async getProfile(@CurrentUser('id') id: number) {
-        return this.userService.findById(id);
+        return this.userService.findOne(id);
     }
 }

@@ -6,6 +6,7 @@ import {AuthModule} from "./core/auth/auth.module";
 import {PrismaModule} from "./core/prisma/prisma.module";
 import {PermissionModule} from "./core/permission/permission.module";
 import {RoleModule} from "./core/role/role.module";
+import { TestModule } from './modules/test/test.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import {RoleModule} from "./core/role/role.module";
       RoleModule,
       PermissionModule,
       ContactModule,
-  ]
+      TestModule,
+  ],
 })
 export class AppModule {}

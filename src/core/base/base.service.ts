@@ -1,15 +1,19 @@
 import { PrismaService } from '../prisma/prisma.service';
-import {Inject} from "@nestjs/common";
 import {buildWhereClause} from "../utils/filter.util";
+import {NotFoundException} from "@nestjs/common";
 
 export class BaseService<T> {
+    protected readonly prisma: PrismaService;
+    protected readonly model: string;
+
     /*
     * prisma: PrismaService
     * model: string
      */
-    constructor(
-        @Inject(PrismaService) private readonly prisma: PrismaService,
-        private readonly model: string) {}
+    constructor(prisma: PrismaService, model: string) {
+        this.prisma = prisma;
+        this.model = model;
+    }
 
     /*
     * data: any
@@ -68,9 +72,11 @@ export class BaseService<T> {
             query.include = includeRelations;
         }
 
-        console.log('query: ', query);
+        const record = this.prisma[this.model].findUnique(query);
 
-        return this.prisma[this.model].findUnique(query);
+        if (!record) throw new NotFoundException(`${this.model} not found`);
+
+        return record;
     }
 
     /*

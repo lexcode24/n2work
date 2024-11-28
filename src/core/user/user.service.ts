@@ -2,12 +2,17 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { hash } from 'argon2';
 import { CreateUserDto, UpdateUserDto } from './dtos/create.dto';
+import {BaseService} from "../base/base.service";
+import {User} from "@prisma/client";
 
 @Injectable()
-export class UserService {
-    constructor(private readonly prisma: PrismaService) {}
+export class UserService extends BaseService<User>{
 
-    async findById(id: number) {
+    constructor(prisma: PrismaService) {
+        super(prisma, 'user');
+    }
+
+    /*async findById(id: number) {
         const user = await this.prisma.user.findUnique({
             where: { id }
         });
@@ -15,7 +20,7 @@ export class UserService {
         if (!user) throw new NotFoundException('User not found');
 
         return user;
-    }
+    }*/
 
     async findByEmail(email: string) {
         const user = await this.prisma.user.findUnique({
@@ -40,7 +45,7 @@ export class UserService {
     }
 
     async update(id: number, { password, roles, ...data }: UpdateUserDto) {
-        await this.findById(id);
+        await this.findOne(id);
 
         const hashedPassword = password ? { password: await hash(password) } : {};
 
